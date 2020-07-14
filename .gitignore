@@ -1,0 +1,11 @@
+node_modules
+config.js
+package-lock.json
+package.json
+
+.idea
+*.csv
+*.xls
+!bank-template-1.xls
+*.xlsx
+!bank-template-1.xlsx
