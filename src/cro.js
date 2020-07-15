@@ -24,7 +24,7 @@ const fs = require('fs');
   const wb = xlsx.utils.book_new();
   const ws = xlsx.utils.aoa_to_sheet(main);
   xlsx.utils.book_append_sheet(wb,ws);
-  xlsx.writeFile(wb,"links.xlsx") 
+  xlsx.writeFile(wb,"lll.xlsx") 
   
  // console.log(links)
 

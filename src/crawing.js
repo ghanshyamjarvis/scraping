@@ -40,7 +40,7 @@ request(URL, function (err, res, body) {
 				newArray.push(Name)
 				newArray.push(price)
 			}
-					
+			
 			/*Product.push(Name)
 			Product_Price.push(price)*/
 			
@@ -59,7 +59,7 @@ request(URL, function (err, res, body) {
 		const wb = xlsx.utils.book_new();
 		const ws = xlsx.utils.aoa_to_sheet(arr);
 		xlsx.utils.book_append_sheet(wb,ws);
-		xlsx.writeFile(wb,"links.xlsx") 
+		xlsx.writeFile(wb,"todaylinks.xlsx") 
 
 		//console.log(arr.toString()); 
 		/*fs.writeFile('mobile.txt', arr, function (err) { 
