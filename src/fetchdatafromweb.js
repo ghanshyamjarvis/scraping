@@ -3,7 +3,6 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const xlsx = require('xlsx');
 
-
 const URL = "https://www.amazon.in/s?k=mobile&rh=n%3A1389401031&ref=nb_sb_noss"; 
 
 request(URL, function (err, res, body) { 
@@ -37,17 +36,14 @@ request(URL, function (err, res, body) {
 		const wb = xlsx.utils.book_new();
 		const ws = xlsx.utils.aoa_to_sheet(arr);
 		xlsx.utils.book_append_sheet(wb,ws);
-		xlsx.writeFile(wb,"urlandnameandprice.xlsx") 
-	
+		xlsx.writeFile(wb,"newxlsxdata.xlsx") //stroe data to new file
+		
 	//Fetch Data From xlsx 	
-	var workbook = xlsx.readFile('urlandname.xlsx');
+	var workbook = xlsx.readFile('newxlsxdata.xlsx');
 	var sheet_name_list = workbook.SheetNames;
 	var xlData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
 
-console.log(xlData);
-
-
-
-	} 
+	console.log(xlData);
+} 
 }); 

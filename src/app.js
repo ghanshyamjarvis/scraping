@@ -1,74 +1,50 @@
-// const express = require('express');
-// const router = express.Router;
-// const app = express();
-const puppeteer =require ('puppeteer')
+ const express = require('express');
+ const router = express.Router;
+ const app = express();
+ const xlsx = require('xlsx');
 
+ 
+ app.get('/',(req,res)=>{
 
+ 	let workbook = xlsx.readFile('urlandnameandprice.xlsx');
+ 	let sheet_name_list = workbook.SheetNames;
+	let xlData = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]); //json
+	//DATA EXPORTING METHOD
+	//const ws = sheet_to_json 		//converts a worksheet object to an array of JSON objects.
+	//const ws = sheet_to_csv 			//generates delimiter-separated-values output.
+	//const ws = sheet_to_txt 			//generates UTF16 formatted text.
+	//const ws = sheet_to_html 		//generates HTML output.
+	//const ws = sheet_to_formulae 	//generates a list of the formulae (with value fallbacks).
 
-async()=> {
-	console.log('ddd');
-	const browser = await puppeteer.launch();
-	const page =await browser.newPage();
-	await page.goto('https://www.amazon.in/s?k=mobile&rh=n%3A1389401031&ref=nb_sb_noss')
+	//console.log(xlData)
+	let Header = ["Name","Url","Price"]
+	// finalarr.push();
 	
+	let urlaoa = xlData.map(obj => {return [obj.Name, obj.Url, obj.Price]});
+	//console.log(finalarr)
+	//console.log(urlaoa)
+	
+	
+	urlaoa.unshift(Header)
+	//console.log(finalarr)
 
-	const links = await page.$$eval('span .a-size-medium a-color-base a-text-normal', allspan => allspan.map(span => span.textContent))
+	const wb = xlsx.utils.book_new();
+	const ws = xlsx.utils.aoa_to_sheet(urlaoa);
 
-	console.log(links)
-}
+	//aoa_to_sheet converts an array of arrays of JS data to a worksheet.
+	//json_to_sheet converts an array of JS objects to a worksheet.
+	//table_to_sheet converts a DOM TABLE element to a worksheet.
+	//sheet_add_aoa adds an array of arrays of JS data to an existing worksheet.
+	//sheet_add_json adds an array of JS objects to an existing worksheet.
+	
+	console.log(urlaoa)
+	
+	xlsx.utils.book_append_sheet(wb,ws);
+	xlsx.writeFile(wb,"final.xlsx") 
+
+})
 
 
-// module.exports = app
 
-// var express = require('express');
-// var fs = require('fs');
-// var request = require('request');
-// var cheerio = require('cheerio');
-// var app     = express();
 
-// app.get('/scrape', function(req, res){
-
-// url = 'https://www.amazon.in/s?k=mobile&rh=n%3A1389401031&ref=nb_sb_noss';
-
-// request(url, function(error, response, html){
-//     if(!error){
-//         var $ = cheerio.load(html);
-
-//     var title, release, rating;
-//     var json = { title : "", release : "", rating : ""};
-
-//     $('.header').filter(function(){
-//         var data = $(this);
-//         title = data.children().first().text();            
-//         release = data.children().last().children().text();
-
-//         json.title = title;
-//         json.release = release;
-//     })
-
-//     $('.star-box-giga-star').filter(function(){
-//         var data = $(this);
-//         rating = data.text();
-
-//         json.rating = rating;
-//     })
-// }
-
-// // To write to the system we will use the built in 'fs' library.
-// // In this example we will pass 3 parameters to the writeFile function
-// // Parameter 1 :  output.json - this is what the created filename will be called
-// // Parameter 2 :  JSON.stringify(json, null, 4) - the data to write, here we do an extra step by calling JSON.stringify to make our JSON easier to read
-// // Parameter 3 :  callback function - a callback function to let us know the status of our function
-
-// fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
-
-//     console.log('File successfully written! - Check your project directory for the output.json file');
-
-// })
-
-// // Finally, we'll just send out a message to the browser reminding you that this app does not have a UI.
-// res.send('Check your console!')
-
-//     }) ;
-// })
  module.exports = app
